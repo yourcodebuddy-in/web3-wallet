@@ -1,7 +1,6 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import boundaries from "eslint-plugin-boundaries";
-import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import reactCompiler from "eslint-plugin-react-compiler";
 
@@ -9,27 +8,12 @@ const compat = new FlatCompat({});
 
 const config = [
   js.configs.recommended,
-  ...compat.extends("plugin:prettier/recommended"),
   ...compat.extends("plugin:react/recommended"),
   ...compat.extends("next/typescript"),
   ...compat.extends("next/core-web-vitals"),
   ...compat.extends("plugin:@next/next/recommended"),
   {
-    ignores: [".next/", ".husky/", ".vscode/", ".public/"],
-  },
-  {
-    files: ["src/**/*.{js,ts,jsx,tsx}", "eslint.config.js", "environment.d.ts"],
-    plugins: {
-      prettier: prettier,
-    },
-    rules: {
-      "prettier/prettier": [
-        "error",
-        {
-          endOfLine: "auto",
-        },
-      ],
-    },
+    ignores: [".next/", ".husky/", ".vscode/", ".public/", "src/components/ui/**/*"],
   },
   {
     files: ["src/**/*.{js,ts,jsx,tsx}"],
@@ -51,6 +35,19 @@ const config = [
       },
     },
     rules: {
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          argsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
       "react/no-array-index-key": ["error"],
       "react/button-has-type": ["error"],
       "react/checked-requires-onchange-or-readonly": ["error"],
@@ -113,6 +110,7 @@ const config = [
             "src/hooks/**/*",
             "src/lib/**/*",
             "src/utils/**/*",
+            "src/types/**/*",
           ],
         },
         {
