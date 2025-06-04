@@ -6,13 +6,13 @@ import EmptyState from "./empty-state";
 import useWalletActivity from "./hooks/use-wallet-activity";
 
 function WalletActivity() {
-  const { data, isPending } = useWalletActivity();
+  const { data, isLoading } = useWalletActivity();
 
   return (
     <div className="pt-3">
       <ScrollArea className="h-screen max-h-[35vh]">
         <div className="flex flex-col gap-3">
-          {isPending
+          {isLoading
             ? [...Array(6).keys()].map((value) => <ActivityCard key={value} isLoading />)
             : data?.activity?.map((activity) => (
                 <ActivityCard
@@ -25,7 +25,7 @@ function WalletActivity() {
                   signature={activity.signature}
                 />
               ))}
-          {!isPending && !data?.activity?.[0] && <EmptyState />}
+          {!isLoading && !data?.activity?.[0] && <EmptyState />}
         </div>
       </ScrollArea>
     </div>

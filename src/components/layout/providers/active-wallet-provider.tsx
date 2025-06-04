@@ -17,13 +17,12 @@ interface Actions {
 
 function ActiveWalletProvider({ children }: { children: React.ReactNode }) {
   const [activeWallet, setActiveWallet] = useState<State | undefined>(undefined);
-  const { wallets } = useWalletApp();
+  const { wallets, network } = useWalletApp();
 
   useEffect(() => {
-    if (wallets.length !== 0) {
-      setActiveWallet(wallets[wallets.length - 1]);
-    }
-  }, [wallets]);
+    const networkWallets = wallets.filter((wallet) => wallet.network === network);
+    setActiveWallet(networkWallets[networkWallets.length - 1]);
+  }, [wallets, network]);
 
   return (
     <Context.Provider

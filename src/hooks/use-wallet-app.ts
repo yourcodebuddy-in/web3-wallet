@@ -7,6 +7,7 @@ export interface WalletAppState {
   mnemonic: string | undefined;
   password: string | undefined;
   wallets: Wallet[];
+  network: string;
 }
 
 export const defaultState: WalletAppState = {
@@ -14,6 +15,7 @@ export const defaultState: WalletAppState = {
   wallets: [],
   mnemonic: undefined,
   password: undefined,
+  network: "sol",
 };
 
 interface WalletAppActions {

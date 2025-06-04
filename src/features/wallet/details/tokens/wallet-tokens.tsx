@@ -5,13 +5,13 @@ import EmptyState from "./empty-state";
 import TokenCard from "./token-card";
 
 function WalletTokens() {
-  const { isPending, data } = useWalletTokens();
+  const { isLoading, data } = useWalletTokens();
 
   return (
     <div className="pt-3">
       <ScrollArea className="h-screen max-h-[35vh]">
         <div className="flex flex-col gap-3">
-          {isPending
+          {isLoading
             ? [...Array(6).keys()].map((value) => <TokenCard key={value} isLoading />)
             : data?.tokens?.map((token) => (
                 <TokenCard
@@ -22,7 +22,7 @@ function WalletTokens() {
                   amount={token.amount}
                 />
               ))}
-          {!isPending && !data?.tokens?.[0] && <EmptyState />}
+          {!isLoading && !data?.tokens?.[0] && <EmptyState />}
         </div>
       </ScrollArea>
     </div>
