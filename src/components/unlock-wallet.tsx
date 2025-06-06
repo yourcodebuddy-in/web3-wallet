@@ -1,28 +1,32 @@
 import { useWalletApp } from "@/hooks/use-wallet-app";
-import { hashPassword } from "@/utils/password";
+import { tryCatch } from "@/lib/try-catch";
+import { decryptVault } from "@/utils/security";
 import { Lock } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useWalletSession } from "./layout/providers/wallet-session-provider";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-interface Props {
-  setIsUnlocked: (isUnlocked: boolean) => void;
-}
-
-export function UnlockWallet({ setIsUnlocked }: Props) {
+export function UnlockWallet() {
   const [error, setError] = useState("");
-  const { password } = useWalletApp();
+  const { mnemonicVault } = useWalletApp();
+  const { setWalletSession } = useWalletSession();
 
-  function handleUnlock(e: React.FormEvent<HTMLFormElement>) {
+  async function handleUnlock(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const inputPassword = formData.get("password") as string;
-    const hashedInputPassword = hashPassword(inputPassword);
-    if (hashedInputPassword === password) {
-      setIsUnlocked(true);
-    } else {
-      setError("Please enter the correct password");
+    if (!mnemonicVault) {
+      return toast.error("No mnemonic vault found");
     }
+
+    const decryptedMnemonic = await tryCatch(decryptVault(mnemonicVault, inputPassword));
+    if (decryptedMnemonic.error) {
+      setError("Please enter the correct password");
+      return;
+    }
+    setWalletSession({ isUnlocked: true, decryptedMnemonic: decryptedMnemonic.data });
   }
 
   return (
@@ -38,7 +42,7 @@ export function UnlockWallet({ setIsUnlocked }: Props) {
           </div>
           <form className="flex flex-col gap-4" onSubmit={handleUnlock}>
             <Input type="password" name="password" placeholder="Password" required />
-            {error && <p className="text-destructive text-sm text-left">{error}</p>}
+            {!!error && <p className="text-destructive text-sm text-left">{error}</p>}
             <Button>Unlock</Button>
           </form>
         </div>

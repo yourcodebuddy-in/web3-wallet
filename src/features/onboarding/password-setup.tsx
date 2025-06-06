@@ -3,7 +3,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input, PasswordInput } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import WalletCard from "@/components/wallet-card";
-import { hashPassword } from "@/utils/password";
 import { KeyRound } from "lucide-react";
 import { useState } from "react";
 
@@ -19,8 +18,7 @@ function PasswordSetup({ onContinue }: Props) {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!password || password !== confirmPassword) return;
-    const hashedPassword = hashPassword(password);
-    onContinue(hashedPassword);
+    onContinue(password);
   }
 
   return (

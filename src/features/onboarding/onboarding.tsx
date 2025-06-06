@@ -1,7 +1,8 @@
 "use client";
 import { useWalletApp } from "@/hooks/use-wallet-app";
 import { default as getWalletAddressFromMnemonic } from "@/utils/get-wallet-address-from-mnemonic";
-import { setOnboardingCookie } from "@/utils/onboarding";
+import { setOnboardingCookies } from "@/utils/onboarding";
+import { createEncryptedVault } from "@/utils/security";
 import { generateMnemonic } from "bip39";
 import { useState } from "react";
 import PasswordSetup from "./password-setup";
@@ -11,44 +12,34 @@ import SelectNetwork from "./select-network";
 import WelcomeCard from "./welcome-card";
 
 function Onboarding() {
-  const [onboardingStep, setOnboardingStep] = useState(0);
-  const [network, setNetwork] = useState("");
+  const [password, setPassword] = useState("");
   const [mnemonic, setMnemonic] = useState("");
-  const [walletAddress, setWalletAddress] = useState("");
-  const { addWallet, updateWalletApp } = useWalletApp();
+  const [onboardingStep, setOnboardingStep] = useState(0);
+  const { network, wallets, updateWalletApp } = useWalletApp();
 
-  function createWallet() {
-    if (!network) {
-      setOnboardingStep(1);
-      return;
-    }
+  async function createWallet() {
     const mnemonic = generateMnemonic();
-    setMnemonic(mnemonic);
     const address = getWalletAddressFromMnemonic(network, mnemonic);
-    if (!address) {
+    if (!address || !password) {
       setOnboardingStep(1);
       return;
     }
-    setWalletAddress(address);
-    setOnboardingStep(3);
+    setMnemonic(mnemonic);
+    const vault = await createEncryptedVault(mnemonic, password);
+    updateWalletApp({ mnemonicVault: vault, wallets: [{ name: "Wallet 1", address, network }] });
+    setOnboardingStep(4);
   }
 
-  function saveWallet(password: string) {
-    if (!network || !mnemonic || !walletAddress) {
+  function completeOnboarding() {
+    if (!wallets[0]?.address) {
       setOnboardingStep(1);
       return;
     }
-    addWallet({
-      name: "Wallet 1",
-      address: walletAddress,
-      network,
-    });
     updateWalletApp({
-      mnemonic,
-      password,
       hasOnboarded: true,
     });
-    setOnboardingCookie();
+    setPassword(password);
+    setOnboardingCookies();
   }
 
   return (
@@ -57,14 +48,23 @@ function Onboarding() {
       {onboardingStep === 1 && (
         <SelectNetwork
           onSelect={(network) => {
-            setNetwork(network);
+            updateWalletApp({ network });
             setOnboardingStep(2);
           }}
         />
       )}
-      {onboardingStep === 2 && <SecretPhraseWarning onContinue={createWallet} />}
-      {onboardingStep === 3 && <SecretRecoveryPhase mnemonic={mnemonic} onContinue={() => setOnboardingStep(4)} />}
-      {onboardingStep === 4 && <PasswordSetup onContinue={saveWallet} />}
+      {onboardingStep === 2 && (
+        <PasswordSetup
+          onContinue={(password) => {
+            setPassword(password);
+            setOnboardingStep(3);
+          }}
+        />
+      )}
+      {onboardingStep === 3 && <SecretPhraseWarning onContinue={createWallet} />}
+      {!!(onboardingStep === 4 && mnemonic) && (
+        <SecretRecoveryPhase mnemonic={mnemonic} onContinue={completeOnboarding} />
+      )}
     </div>
   );
 }

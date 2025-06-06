@@ -4,8 +4,13 @@ import { persist } from "zustand/middleware";
 
 export interface WalletAppState {
   hasOnboarded: boolean;
-  mnemonic: string | undefined;
-  password: string | undefined;
+  mnemonicVault:
+    | {
+        encryptedHex: string;
+        saltHex: string;
+        ivHex: string;
+      }
+    | undefined;
   wallets: Wallet[];
   network: string;
 }
@@ -13,8 +18,7 @@ export interface WalletAppState {
 export const defaultState: WalletAppState = {
   hasOnboarded: false,
   wallets: [],
-  mnemonic: undefined,
-  password: undefined,
+  mnemonicVault: undefined,
   network: "sol",
 };
 
