@@ -1,18 +1,14 @@
-"use client";
+import { Home } from "@/components/home";
+import { cookies } from "next/headers";
 
-import Onboarding from "@/features/onboarding/onboarding";
-import Wallet from "@/features/wallet/wallet";
-import { useWalletApp } from "@/hooks/use-wallet-app";
-
-export default function Home() {
-  const { hasOnboarded } = useWalletApp();
+export default async function Page() {
+  const cookieStore = await cookies();
+  const hasOnboarded = cookieStore.get("hasOnboarded")?.value === "true";
 
   return (
     <main className="bg-secondary">
       <div className="container">
-        <div className="flex min-h-screen w-full flex-col items-center justify-center">
-          {hasOnboarded ? <Wallet /> : <Onboarding />}
-        </div>
+        <Home hasOnboarded={hasOnboarded} />
       </div>
     </main>
   );

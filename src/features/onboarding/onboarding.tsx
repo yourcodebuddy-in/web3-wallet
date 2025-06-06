@@ -1,6 +1,7 @@
 "use client";
 import { useWalletApp } from "@/hooks/use-wallet-app";
 import { default as getWalletAddressFromMnemonic } from "@/utils/get-wallet-address-from-mnemonic";
+import { setOnboardingCookie } from "@/utils/onboarding";
 import { generateMnemonic } from "bip39";
 import { useState } from "react";
 import PasswordSetup from "./password-setup";
@@ -47,6 +48,7 @@ function Onboarding() {
       password,
       hasOnboarded: true,
     });
+    setOnboardingCookie();
   }
 
   return (
@@ -61,9 +63,7 @@ function Onboarding() {
         />
       )}
       {onboardingStep === 2 && <SecretPhraseWarning onContinue={createWallet} />}
-      {onboardingStep === 3 && (
-        <SecretRecoveryPhase mnemonic={mnemonic} onContinue={() => setOnboardingStep(4)} />
-      )}
+      {onboardingStep === 3 && <SecretRecoveryPhase mnemonic={mnemonic} onContinue={() => setOnboardingStep(4)} />}
       {onboardingStep === 4 && <PasswordSetup onContinue={saveWallet} />}
     </div>
   );

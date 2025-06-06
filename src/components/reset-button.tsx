@@ -1,9 +1,11 @@
 "use client";
+import { removeOnboardingCookie } from "@/utils/onboarding";
 import { RefreshCcw } from "lucide-react";
 import { Button } from "./ui/button";
 
 function ResetButton() {
   function handleClick() {
+    removeOnboardingCookie();
     localStorage.clear();
     window.location.reload();
   }
