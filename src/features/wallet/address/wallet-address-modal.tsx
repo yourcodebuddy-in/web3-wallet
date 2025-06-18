@@ -27,15 +27,12 @@ function WalletAddressModal({ children }: Props) {
 
   return (
     <DialogOrDrawer>
-      <DialogOrDrawerTrigger asChild>{children}</DialogOrDrawerTrigger>
+      <DialogOrDrawerTrigger>{children}</DialogOrDrawerTrigger>
       <DialogOrDrawerContent className="px-5 py-10 xs:px-10">
         <DialogOrDrawerHeader className="px-6 py-4 *:text-center">
-          <DialogOrDrawerTitle className="text-xl xs:text-2xl">
-            Your Wallet Address
-          </DialogOrDrawerTitle>
+          <DialogOrDrawerTitle className="text-xl xs:text-2xl">Your Wallet Address</DialogOrDrawerTitle>
           <DialogOrDrawerDescription className="mt-2">
-            You can deposit crypto or NFTs into your account via this {explorer?.network} wallet
-            address:
+            You can deposit crypto or NFTs into your account via this {explorer?.network} wallet address:
           </DialogOrDrawerDescription>
         </DialogOrDrawerHeader>
         <div className="mx-auto flex w-full max-w-[500px] flex-col items-center justify-center rounded-lg bg-muted px-9 py-8">
@@ -46,8 +43,8 @@ function WalletAddressModal({ children }: Props) {
           <div className="flex w-full items-start justify-center pt-4 text-muted-foreground">
             <Info size={14} />
             <span className="ml-1 text-xs font-normal">
-              Only send crypto to this address via the{" "}
-              <span className="font-bold uppercase">{explorer?.network}</span> network.
+              Only send crypto to this address via the <span className="font-bold uppercase">{explorer?.network}</span>{" "}
+              network.
             </span>
           </div>
         </div>

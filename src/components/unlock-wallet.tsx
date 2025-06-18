@@ -1,3 +1,4 @@
+import OnboardingCard from "@/features/onboarding/onboarding-card";
 import { useWalletApp } from "@/hooks/use-wallet-app";
 import { tryCatch } from "@/lib/try-catch";
 import { decryptVault } from "@/utils/security";
@@ -30,23 +31,12 @@ export function UnlockWallet() {
   }
 
   return (
-    <div className="card">
-      <section className="w-full p-5 sm:p-8 sm:px-10">
-        <div className="flex flex-col gap-5">
-          <div className="mx-auto w-fit rounded-lg bg-secondary p-4">
-            <Lock />
-          </div>
-          <div>
-            <h1 className="text-center font-bold text-foreground xs:text-2xl">Unlock Wallet</h1>
-            <p>Enter your password to unlock your wallet</p>
-          </div>
-          <form className="flex flex-col gap-4" onSubmit={handleUnlock}>
-            <Input type="password" name="password" placeholder="Password" required />
-            {!!error && <p className="text-destructive text-sm text-left">{error}</p>}
-            <Button>Unlock</Button>
-          </form>
-        </div>
-      </section>
-    </div>
+    <OnboardingCard icon={<Lock />} title="Unlock Wallet" description="Enter your password to unlock your wallet">
+      <form className="flex flex-col gap-4" onSubmit={handleUnlock}>
+        <Input type="password" name="password" placeholder="Password" required />
+        {!!error && <p className="text-destructive text-sm text-left">{error}</p>}
+        <Button>Unlock</Button>
+      </form>
+    </OnboardingCard>
   );
 }

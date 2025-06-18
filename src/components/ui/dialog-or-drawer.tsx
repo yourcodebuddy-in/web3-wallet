@@ -80,7 +80,7 @@ function DialogOrDrawerContent({ children, ...props }: any) {
       {children}
       {!!isMobile && (
         <DialogOrDrawerTrigger>
-          <X size={27} className="absolute right-3 top-3 rounded-full border bg-white p-1" />
+          <X size={27} className="absolute right-3 top-3 rounded-full border p-1" />
         </DialogOrDrawerTrigger>
       )}
     </Content>

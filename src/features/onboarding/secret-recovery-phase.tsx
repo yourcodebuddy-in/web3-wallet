@@ -23,7 +23,7 @@ function SecretRecoveryPhase({ mnemonic, onContinue }: Props) {
   return (
     <OnboardingCard
       title="Secret Recovery Phrase"
-      dsecription="Save these words in a safe place."
+      description="Save these words in a safe place."
       icon={<WalletCardsIcon />}
     >
       <div className="cursor-pointer rounded-lg border" onClick={handleCopy}>
@@ -35,9 +35,7 @@ function SecretRecoveryPhase({ mnemonic, onContinue }: Props) {
             </p>
           ))}
         </div>
-        <p className="border-t px-3 py-1 text-xs">
-          {copiedText ? "Copied" : "Click anywhere on this card to copy"}
-        </p>
+        <p className="border-t px-3 py-1 text-xs">{copiedText ? "Copied" : "Click anywhere on this card to copy"}</p>
       </div>
       <div className="flex items-center gap-3 text-left">
         <Checkbox

@@ -12,7 +12,7 @@ function SelectNetwork({ onSelect }: Props) {
   return (
     <OnboardingCard
       title="Select a network"
-      dsecription={
+      description={
         <>
           Web3 Wallet supports multiple blockchains.
           <br /> Which do you want to use? You can add more later.

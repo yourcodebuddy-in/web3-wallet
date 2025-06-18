@@ -15,14 +15,13 @@ function SecretPhraseWarning({ onContinue }: Props) {
   return (
     <OnboardingCard
       title="Secret Recovery Phrase"
-      dsecription="On the next page, you will receive your secret recovery phrase."
+      description="On the next page, you will receive your secret recovery phrase."
       icon={<FileWarning />}
     >
       <div className="flex items-center gap-4 rounded-lg border bg-accent p-3 text-left">
         <TriangleAlert className="text-yellow-700" />
         <p>
-          This is the <b>ONLY</b> way to recover your account if you lose access to your device or
-          password.
+          This is the <b>ONLY</b> way to recover your account if you lose access to your device or password.
         </p>
       </div>
       <div className="flex items-center gap-4 rounded-lg border bg-accent p-3 text-left">
@@ -39,8 +38,8 @@ function SecretPhraseWarning({ onContinue }: Props) {
           onCheckedChange={setWarningAccepted as () => void}
         />
         <Label htmlFor="phrase-warning" className="leading-5">
-          I understand that I am responsible for saving my secret recovery phrase, and that it is
-          the only way to recover my wallet.
+          I understand that I am responsible for saving my secret recovery phrase, and that it is the only way to
+          recover my wallet.
         </Label>
       </div>
       <Button type="button" size="lg" onClick={onContinue} disabled={!warningAccepted}>

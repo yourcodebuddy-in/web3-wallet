@@ -2,12 +2,12 @@ import React from "react";
 
 interface Props {
   title: string;
-  dsecription: React.ReactNode;
+  description: React.ReactNode;
   children: React.ReactNode;
   icon: React.ReactNode;
 }
 
-function OnboardingCard({ title, dsecription, children, icon }: Props) {
+function OnboardingCard({ title, description, children, icon }: Props) {
   return (
     <div className="card">
       <section className="w-full p-5 sm:p-8 sm:px-10">
@@ -19,7 +19,7 @@ function OnboardingCard({ title, dsecription, children, icon }: Props) {
           </div>
           <div>
             <h1 className="text-center font-bold text-foreground xs:text-2xl">{title}</h1>
-            <p>{dsecription}</p>
+            <p>{description}</p>
           </div>
           {children}
         </div>

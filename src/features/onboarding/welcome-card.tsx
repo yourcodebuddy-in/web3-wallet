@@ -12,7 +12,7 @@ function WelcomeCard({ onContinue }: Props) {
   return (
     <OnboardingCard
       title="Welcome to Your Web3 Wallet"
-      dsecription="Your gateway to the world of digital assets and decentralized finance."
+      description="Your gateway to the world of digital assets and decentralized finance."
       icon={<Wallet />}
     >
       <div className="grid gap-3">
